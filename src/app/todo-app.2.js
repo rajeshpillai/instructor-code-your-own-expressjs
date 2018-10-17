@@ -1,7 +1,3 @@
-// Added view engine
-// Added middleware
-
-const logger = require("morgan");
 
 const rocket = require('../lib/rocket');
 
@@ -18,21 +14,6 @@ let data = [
     { id: "2", item: 'walk' },
     { id: "3", item: 'get some food' }
 ];
-
-app.use(logger());
-
-function one(req, res, next) {
-    console.log("Middleware 1");
-    next();
-}
-
-function two(req, res, next) {
-    console.log("Middleware 2");
-    next();
-}
-
-app.use(one).use(two);
-
 
 app.get('/todos', function (req, res) {
     res.render('todo', { todos: data });
