@@ -46,6 +46,7 @@ Response.prototype.json = function (body) {
 }
 
 Response.prototype.redirect = function (url) {
+    // writeHead comes from http (response)
     this.writeHead(302, {
         'Location': url
         //add other headers here...
@@ -55,7 +56,7 @@ Response.prototype.redirect = function (url) {
 
 Response.prototype.render = function (file, locals = {}) {
     var self = this
-
+    // Invoke render of the app
     this.app.render(file, locals, function (html) {
         self.send(html)
     })
