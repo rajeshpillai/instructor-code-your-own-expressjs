@@ -36,6 +36,14 @@ app.put('/todos/:id/edit', function (req, res) {
     res.send(JSON.stringify(data));
 });
 
+app.delete('/todos/delete/:id', function (req, res) {
+    console.log(`Deleting record with id ${req.params.id}`);
+    data = data.filter(function (todo) {
+        return todo.id !== req.params.id;
+    });
+    res.send(JSON.stringify(data));
+});
+
 
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
