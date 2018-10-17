@@ -6,7 +6,7 @@
 
 // app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
-const express = require('./lib/rocket')
+const rocket = require('../lib/rocket')
 const app = rocket();
 const port = 3000
 

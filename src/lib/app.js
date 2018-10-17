@@ -12,7 +12,7 @@ class App {
 
     init() {
         // Create method on the instance of app
-        this.methods.forEach((methods) => {
+        this.methods.forEach((method) => {
             this[method.toLowerCase()] = (path, callback) => {
                 this.router.route(method, path, callback);
             }
@@ -25,7 +25,7 @@ class App {
         this.router.handle(req, res);
     }
 
-    listen() {
+    listen(port, hostname) {
         let server = http.createServer((req, res) => {
             this.handle(req, res);
         });
