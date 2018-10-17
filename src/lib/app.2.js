@@ -1,10 +1,9 @@
 /***
- * Add support for view engine (install serve-static npm)
+ * Basic request handling
  * 
  */
 let Router = require('./router'),
     http = require('http'),
-    cons = require('consolidate'),  // TODO:
     Response = require('./response');
 
 
@@ -12,7 +11,6 @@ class App {
     constructor() {
         this.router = new Router();
         this.methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
-        this.settings = {};
         this.init();
     }
 
@@ -31,22 +29,6 @@ class App {
         this.router.handle(req, res);
     }
 
-    // TODO:
-    render(file, locals, callback) {
-        let engineName = this.settings['view engine'],
-            engine = cons[engineName],
-            path = this.settings['views'] + '/' + file + '.' + engineName; // Optimization required
-
-        engine(path, locals, function (err, html) {
-            if (err) throw err;
-            callback(html);
-        });
-    }
-
-    // TODO:
-    set(name, value) {
-        this.settings[name] = value;
-    }
 
     listen(port, hostname) {
         let server = http.createServer((req, res) => {

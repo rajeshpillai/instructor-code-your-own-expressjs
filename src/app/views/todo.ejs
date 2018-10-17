@@ -1,0 +1,95 @@
+<html>
+
+<head>
+    <title>Todo List</title>
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+</head>
+
+<body>
+    <h1>TODO APP</h1>
+    <div id="todo-table">
+        <form>
+            <input type=text name="item" id="item" placeholder="add new item.." required />
+            <input type=hidden name="id" id="id" />
+            <button type="submit" id="btnSubmit">add item</button>
+            <button id="btnEdit">save item</button>
+        </form>
+        <ul>
+            <% for(var i=0;i< todos.length;i++){ %>
+            <li><span class="btnGetDetail" data-id=<%=todos[i].id %>>
+                    <%= todos[i].item %> </span> <button class="btnDelete" data-id=<%=todos[i].id %>>X</button></li>
+
+            <% } %>
+        </ul>
+    </div>
+</body>
+
+</html>
+<script>
+    $(document).ready(function () {
+        $("#btnEdit").hide();
+        $('form').on('submit', function () {
+            var item = $('#item');
+            var todo = {
+                id: +new Date(),
+                item: item.val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/todos',
+                data: JSON.stringify(todo),
+                success: function (data) {
+                    location.reload();
+                }
+            });
+            return false;
+        });
+
+        $(document).on('click', '.btnDelete', function () {
+            alert('delete');
+            var item = $(this).data('id'); //.replace(/ /g, "-");
+            $.ajax({
+                type: 'DELETE',
+                url: '/todos/delete/' + item,
+                success: function (data) {
+                    location.reload();
+                }
+            });
+        });
+
+        $(document).on('click', '.btnGetDetail', function () {
+            var item = $(this).data('id'); //.replace(/ /g, "-");
+            $.ajax({
+                type: 'GET',
+                url: '/todos/' + item,
+                success: function (data) {
+                    // location.reload();
+                    $("#item").val(data);
+                    $("#id").val(item);
+                    $("#btnEdit").show();
+                    $("#btnSubmit").hide();
+                }
+            });
+        });
+
+        $(document).on('click', '#btnEdit', function () {
+            var item = $('#item');
+            var id = $('#id');
+            var todo = {
+                id: id.val(),
+                item: item.val()
+            };
+
+            $.ajax({
+                type: 'PUT',
+                //contentType: "application/json",
+                url: '/todos/edit',
+                data: JSON.stringify(todo),
+                success: function (data) {
+                    location.reload();
+                }
+            });
+            return false;
+        });
+    });
+</script>
