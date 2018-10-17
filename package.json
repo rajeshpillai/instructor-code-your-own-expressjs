@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/app/todo-app.js "
+    "start": "nodemon ./src/app/todo-app.js",
+    "start-d": "node --inspect ./src/app/todo-app.js"
   },
   "keywords": [],
   "author": "",

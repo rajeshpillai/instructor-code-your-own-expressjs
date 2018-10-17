@@ -28,6 +28,15 @@ app.post('/todo', function (req, res) {
 });
 
 
+// Edit todo
+app.put('/todos/:id/edit', function (req, res) {
+    console.log("PUT: ", req.body);
+    objIndex = data.findIndex((obj => obj.id == req.body.id));
+    data[objIndex].item = req.body.item;
+    res.send(JSON.stringify(data));
+});
+
+
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
