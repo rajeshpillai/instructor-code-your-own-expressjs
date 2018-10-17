@@ -1,7 +1,6 @@
 /*
     Implement handle request
     Implement match method
-    Add notFound for get request
 */
 const url = require('url');
 const qs = require("querystring");
