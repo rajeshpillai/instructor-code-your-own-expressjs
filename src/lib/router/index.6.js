@@ -122,7 +122,6 @@ class Router {
 
         console.log('matchOBject: ', matchObject);
 
-        // todo:
         let paramsMap = patternToken.reduce((arr, token, index) => {
             if (token.trim().length === 0) return arr;
             if (token.startsWith(":")) {
@@ -136,7 +135,7 @@ class Router {
         return {
             match: matchObject,
             qs: parsedUrl.query,
-            params: paramsMap  // todo:
+            params: paramsMap
         }
 
     }
