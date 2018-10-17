@@ -3,7 +3,7 @@
     Implement match method
     Add notFound invocation if route doesn't match
     Fixing dynamic request parameters error
-    Make params value available in req.params object
+
 */
 const url = require('url');
 const qs = require("querystring");
