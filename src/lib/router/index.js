@@ -4,6 +4,7 @@
     Add notFound invocation if route doesn't match
     Fixing dynamic request parameters error
     Make params value available in req.params object
+    Support POST METHOD
 */
 const url = require('url');
 const qs = require("querystring");
