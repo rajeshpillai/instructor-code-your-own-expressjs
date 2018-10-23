@@ -45,6 +45,7 @@ class Router {
 
     handle(req, res) {
         let parsedUrl = url.parse(req.url, true); // parse query string
+        console.log("parsedUrl: ", parsedUrl);
         let method = req.method.trim().toLowerCase();
 
         let result = this.match(req.url, method);
@@ -128,6 +129,7 @@ class Router {
             let routeObject = methods[m];
             patternToken = routeObject.path.split("/").filter(Boolean); // convert the route to token array
 
+            console.log("urlPaths: ", urlPaths);
             console.log("patternToken: ", patternToken);
 
             let found = true;

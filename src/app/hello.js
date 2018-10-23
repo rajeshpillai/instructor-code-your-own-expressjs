@@ -13,6 +13,8 @@ const port = 3000;
 app.get('/', (req, res) => res.send('Hello World!'));
 app.get('/welcome', (req, res) => res.send('Hello World -> welcome!'));
 app.get('/:name', (req, res) => res.send(`Hello World -> ${req.params.name}`));
+app.get('/user/:name/edit', (req, res) => res.send(`Hello user edit -> ${req.params.name}`));
+
 
 
 

@@ -34,6 +34,24 @@ function two(req, res, next) {
 app.use(one).use(two);
 
 
+app.get("/hello/:id/message/:msg", (req, res) => {
+    res.send(`hello/id/message ${req.params.id} ${req.params.msg}`);
+});
+
+
+app.get("/hello/:id/message", (req, res) => {
+    res.send(`hello/id/message ${req.params.id}`);
+});
+
+app.get("/hello/message/:id", (req, res) => {
+    res.send(`hello/message/id ${req.params.id}`);
+});
+
+
+app.get("/hello", (req, res) => {
+    res.send("Hello!!!");
+});
+
 app.get('/todos', function (req, res) {
     res.render('todo', { todos: data });
 });
