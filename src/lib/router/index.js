@@ -117,7 +117,8 @@ class Router {
 
         let parsedUrl = url.parse(urlpath, true);  // parse query string
 
-        urlPaths = parsedUrl.pathname.split("/").filter(String);  // convert the url to token array
+        urlPaths = parsedUrl.pathname.split("/").filter(Boolean);  // Remove empty array element
+        //OR urlPaths = parsedUrl.filter(v=>v!='');
 
         let flatPath = {};
 
@@ -125,7 +126,7 @@ class Router {
 
         for (let m in methods) {
             let routeObject = methods[m];
-            patternToken = routeObject.path.split("/").filter(String); // convert the route to token array
+            patternToken = routeObject.path.split("/").filter(Boolean); // convert the route to token array
 
             console.log("patternToken: ", patternToken);
 
