@@ -52,9 +52,15 @@ app.get("/hello", (req, res) => {
     res.send("Hello!!!");
 });
 
+
 app.get('/todos', function (req, res) {
     res.render('todo', { todos: data });
 });
+
+app.get('/todos.json', function (req, res) {
+    res.json({ todos: data });
+});
+
 
 // New todo
 app.post('/todos', function (req, res) {
