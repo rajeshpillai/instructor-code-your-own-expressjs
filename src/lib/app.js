@@ -77,13 +77,14 @@ class App {
         this.settings[name] = value;
     }
 
-    listen(port, hostname) {
+    listen(port, callback) {
         let server = http.createServer((req, res) => {
             this.handle(req, res);
         });
 
         server.listen(port, () => {
             console.log(`Server running on port ${port}`);
+            callback();
         });
     }
 }
