@@ -81,11 +81,13 @@ class App {
       this.handle(req, res);
     });
 
-    server.listen(port, () => {
-      console.log(`Server running on port ${port}`);
-      callback();
-      return server;
-    });
+    return server.listen.apply(server, arguments);
+
+    // server.listen(port, () => {
+    //   console.log(`Server running on port ${port}`);
+    //   callback();
+    //   return server;
+    // });
   }
 }
 
