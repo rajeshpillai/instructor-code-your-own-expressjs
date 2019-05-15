@@ -60,15 +60,17 @@ class Router {
         req = this._setupRequestParams(req, result.params, result.qs);
 
         // TODO:
-        if (method !== 'post' && method !== "put") {  // get, delete etc
+        if (method == "get") {  // get, delete etc
             console.log("WHY HERE ? ", method);
             result.match.callback(req, res);
             return;
         }
 
         // TODO:
-        if (method === "post" || method === "put") {
+        if (method === "post" || method === "put" || method === "patch") {
+            console.log(`Beginning to process ${method} request`);
             this._onPost(req, res, function postComplete(req, res) {
+                console.log(`Finished processing ${method}.`);
                 result.match.callback(req, res);
             });
         }
