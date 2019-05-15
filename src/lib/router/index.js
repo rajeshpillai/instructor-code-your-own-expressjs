@@ -60,7 +60,7 @@ class Router {
         req = this._setupRequestParams(req, result.params, result.qs);
 
         // TODO:
-        if (method == "get") {  // get, delete etc
+        if (method == "get" || method == "delete") {  // get, delete etc
             console.log("WHY HERE ? ", method);
             result.match.callback(req, res);
             return;
