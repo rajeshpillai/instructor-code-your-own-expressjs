@@ -6,45 +6,53 @@
 
 // app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
+// Load the rocket library
 const rocket = require('../lib/rocket');
+
+// Create a new application of the app
 const app = rocket();
+
 const port = 3000;
 
 // Example: Get request to the root of the web server
 app.get('/', (req, res) => res.send('Our own tiny node server (rocket)'));
 
-// Example: Simple get request to the root of the web server
-app.get('/welcome', (req, res) => res.send('Welcome !'));
+// Example: Get request to the users resource
+app.get('/users', (req, res) => res.send('All Users !'));
 
-app.get('/:name', (req, res) => {
-    res.send(`Hello -> ${req.params.name}`);
+// Example: Get request to the users resource with username 
+// dynamic as parameter
+app.get('/users/:username', (req, res) => {
+    res.send(`Listing user for -> ${req.params.username}`);
 });
 
-app.get('/user/:name/edit', (req, res) => {
-    res.send(`Editing user ${req.params.name}`);
+// Example: Get request to the users resource with 
+// username as dynamic parameter and edit as an additional action
+app.get('/users/:username/edit', (req, res) => {
+    res.send(`Editing user ${req.params.username}`);
 });
 
-// Create new resource
-app.post('/user', (req, res) => {
-    console.log("POST:/user/new", req.body);
+// Create new users resource
+app.post('/users', (req, res) => {
+    console.log("POST:/users", req.body);
     res.json(req.body);
 });
 
-// Create or modify existing resource
-app.put('/user', (req, res) => {
-    console.log("PUT:/user/new", req.body);
+// Create or modify existing user resource
+app.put('/users', (req, res) => {
+    console.log("PUT:/users", req.body);
     res.json(req.body);
 });
 
 // Minor updates to existing resource
-app.patch('/user/:username', (req, res) => {
-    console.log("PATCH:/user", req.body.username);
+app.patch('/users/:username', (req, res) => {
+    console.log("PATCH:/users", req.body.username);
     res.json(req.body);
 });
 
-// Delete existing  resource
-app.delete('/user/:username', (req, res) => {
-    console.log("DELETE:/user", req.params.username);
+// Delete existing  resource by username
+app.delete('/users/:username', (req, res) => {
+    console.log("DELETE:/users/:username", req.params.username);
     res.json({ status: "ok" });
 });
 
