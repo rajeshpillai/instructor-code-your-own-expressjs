@@ -9,7 +9,7 @@
 // Load the rocket library
 const rocket = require('../lib/rocket');
 
-// Create a new application of the app
+// Create a new rocket application
 const app = rocket();
 
 const port = 3000;
