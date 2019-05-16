@@ -1,7 +1,10 @@
 let App = require('./application');
 
-module.exports = function () {
-    let app = new App();
+exports = module.exports = createApplication;
 
+function createApplication() {
+    let app = new App();
     return app;
 }
+
+exports.static = require('serve-static');

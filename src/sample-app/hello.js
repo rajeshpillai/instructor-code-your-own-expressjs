@@ -14,6 +14,12 @@ const app = rocket();
 
 const port = 3000;
 
+// Setup routing for static resources.  The below statement setups files
+// in the folder public to be served statically
+// e.g. http://localhost:3000/styles.css
+app.use(rocket.static('public'));
+
+
 // Example: Get request to the root of the web server
 app.get('/', (req, res) => res.send('Our own tiny node server (rocket)'));
 
@@ -55,6 +61,9 @@ app.delete('/users/:username', (req, res) => {
     console.log("DELETE:/users/:username", req.params.username);
     res.json({ status: "ok" });
 });
+
+
+// Routes for static resources
 
 
 // Start the server on the port specified
