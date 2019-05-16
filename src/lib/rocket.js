@@ -1,5 +1,7 @@
 let App = require('./application');
 
 module.exports = function () {
-    return new App();
+    let app = new App();
+
+    return app;
 }
