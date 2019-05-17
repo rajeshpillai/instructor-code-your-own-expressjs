@@ -63,8 +63,10 @@ app.delete('/users/:username', (req, res) => {
 });
 
 
-// Routes for static resources
-
+// Redirect
+app.get("/dashboard", function (req,res) {
+    res.redirect("/");
+});
 
 // Start the server on the port specified
 app.listen(port, () =>

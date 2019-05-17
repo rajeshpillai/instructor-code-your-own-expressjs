@@ -34,7 +34,7 @@ class Router {
             } else return arr;
         }, []).join('');
 
-        console.log("key: ", combinedKey);
+        //console.log("key: ", combinedKey);
 
         routes.push({
             path: url,
@@ -45,12 +45,12 @@ class Router {
 
     handle(req, res) {
         let parsedUrl = url.parse(req.url, true); // parse query string
-        console.log("parsedUrl: ", parsedUrl);
+        //console.log("parsedUrl: ", parsedUrl);
         let method = req.method.trim().toLowerCase();
 
         let result = this.match(req.url, method);
 
-        console.log("HTTP: ", method);
+        //console.log("HTTP: ", method);
 
         if (!result) {
             return res.notFound().end("Not found!");
@@ -61,16 +61,16 @@ class Router {
 
         // TODO:
         if (method == "get" || method == "delete") {  // get, delete etc
-            console.log("WHY HERE ? ", method);
+            //console.log("WHY HERE ? ", method);
             result.match.callback(req, res);
             return;
         }
 
         // TODO:
         if (method === "post" || method === "put" || method === "patch") {
-            console.log(`Beginning to process ${method} request`);
+            //console.log(`Beginning to process ${method} request`);
             this._onPost(req, res, function postComplete(req, res) {
-                console.log(`Finished processing ${method}.`);
+                //console.log(`Finished processing ${method}.`);
                 result.match.callback(req, res);
             });
         }
@@ -131,8 +131,8 @@ class Router {
             let routeObject = methods[m];
             patternToken = routeObject.path.split("/").filter(Boolean); // convert the route to token array
 
-            console.log("urlPaths: ", urlPaths);
-            console.log("patternToken: ", patternToken);
+            //console.log("urlPaths: ", urlPaths);
+            //console.log("patternToken: ", patternToken);
 
             let found = true;
 
@@ -161,7 +161,7 @@ class Router {
 
         if (!matchObject) return;
 
-        console.log('matchOBject: ', matchObject);
+        //console.log('matchOBject: ', matchObject);
 
         // todo:
         let paramsMap = patternToken.reduce((arr, token, index) => {

@@ -65,7 +65,7 @@ class App {
       engine = cons[engineName],
       path = this.settings["views"] + "/" + file + "." + engineName; // Optimization required
 
-    engine(path, locals, function(err, html) {
+    engine(path, locals, function (err, html) {
       if (err) throw err;
       callback(html);
     });

@@ -14,7 +14,7 @@ class Response extends http.ServerResponse {
         }
 
         let contentLength = body ? body.length : 0;
-        console.log("this: ", this.contentType);
+        //console.log("this: ", this.contentType);
         this.writeHead(status, {
             'Content-Length': contentLength,
             'Content-Type': this.contentType
