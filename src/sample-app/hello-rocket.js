@@ -36,6 +36,7 @@ app.get('/users/:username/edit', (req, res) => {
 
 // Another route for edit
 app.get('/users/edit/:username', (req, res) => {
+    console.log(req.query);
     res.send(`Editing /users/edit/${req.params.username}`);
 });
 

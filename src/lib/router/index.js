@@ -7,7 +7,7 @@
     Support POST METHOD
 */
 const url = require('url');
-const qs = require("querystring");
+const query = require("querystring");
 const log = require('../../logger/log');
 const { METHODS } = require("http");
 
@@ -43,7 +43,7 @@ class Router {
         }
 
         // Setup request-> todo
-        req = this._setupRequestParams(req, matchedRoute.params, matchedRoute.qs);
+        req = this._setupRequestParams(req, matchedRoute.params, matchedRoute.query);
 
         // TODO:
         if (method == "get" || method == "delete") {  // get, delete etc
@@ -64,13 +64,13 @@ class Router {
     // todo:
     _setupRequestParams(req, params, query) {
         req.params = {};
-        req.qs = {};
+        req.query = {};
         for (let p in params) {
             req.params[p] = params[p];
         }
 
         for (let q in query) {
-            req.qs[q] = query[q];
+            req.query[q] = query[q];
         }
 
         return req;
@@ -83,7 +83,7 @@ class Router {
         });
 
         req.on("end", () => {
-            let body = qs.parse(postedData);
+            let body = query.parse(postedData);
             req.rawBody = postedData;
 
             //TODO: NEED WORK HERE
@@ -180,7 +180,7 @@ class Router {
 
         return {
             match: matchedRoute,
-            qs: parsedUrl.query,
+            query: parsedUrl.query,
             params: paramsMap  // todo:
         }
 
