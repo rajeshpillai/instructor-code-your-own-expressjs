@@ -8,6 +8,7 @@
 */
 const url = require('url');
 const qs = require("querystring");
+const log = require('../../logger/log');
 const { METHODS } = require("http");
 
 class Router {
@@ -25,20 +26,8 @@ class Router {
 
     route(method, url, callback) {
         let routes = this.routes[method.toLowerCase()];  // There can be more than one route matching
-
-        let patternToken = url.split("/");
-        let combinedKey = patternToken.reduce((arr, token, index) => {
-            // todo:
-            if (!token.startsWith(":")) {
-                return arr.concat(patternToken[index]);  // grab the token
-            } else return arr;
-        }, []).join('');
-
-        //console.log("key: ", combinedKey);
-
         routes.push({
             path: url,
-            key: combinedKey,
             callback: callback
         });
     }
@@ -113,15 +102,21 @@ class Router {
     }
 
     match(urlpath, method = "get") {
+        log(`Searching ${urlpath}`);
         let methods = this.routes[method.toLowerCase()];
 
         let urlPaths = null;   // store URL as token
         let patternToken = null;    // store route pattern as token
 
         let parsedUrl = url.parse(urlpath, true);  // parse query string
+        log(`parsedUrl : ${JSON.stringify(parsedUrl)}`);
 
+        // Get the URL tokens as array
+        // For e.g. http://localhost:3000/users/edit/rajeshpillai will result in
+        // urlPaths = ['users','edit','rajeshpillai']
         urlPaths = parsedUrl.pathname.split("/").filter(Boolean);  // Remove empty array element
-        //OR urlPaths = parsedUrl.filter(v=>v!='');
+
+        log("Split URL's: ", urlPaths);
 
         let flatPath = {};
 

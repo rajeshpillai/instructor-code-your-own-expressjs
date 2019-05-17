@@ -34,6 +34,11 @@ app.get('/users/:username/edit', (req, res) => {
     res.send(`Editing user ${req.params.username}`);
 });
 
+// Another route for edit
+app.get('/users/edit/:username', (req, res) => {
+    res.send(`Editing /users/edit/${req.params.username}`);
+});
+
 // Create new users resource
 app.post('/users', (req, res) => {
     console.log("POST:/users", req.body);
