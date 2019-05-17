@@ -8,3 +8,4 @@ function createApplication() {
 }
 
 exports.static = require('serve-static');
+exports.Router = () => new (require('./router'));

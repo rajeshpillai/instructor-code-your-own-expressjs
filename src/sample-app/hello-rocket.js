@@ -1,7 +1,10 @@
+const log = require('../logger/log');
 const rocket = require('../lib/rocket');
 
 // Create a new rocket application
 const app = rocket();
+
+const router = rocket.Router();
 
 const port = 3000;
 
@@ -11,7 +14,7 @@ const port = 3000;
 app.use(rocket.static('public'));
 
 // Example: Middleware: Simple Console logger
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     console.log('%s %s', req.method, req.url);
     next();
 });
@@ -66,9 +69,10 @@ app.delete('/users/:username', (req, res) => {
 
 
 // Redirect from /dashbaord to /
-app.get("/dashboard", function (req,res) {
+app.get("/dashboard", function (req, res) {
     res.redirect("/");
 });
+
 
 // Start the server on the port specified
 app.listen(port, () =>

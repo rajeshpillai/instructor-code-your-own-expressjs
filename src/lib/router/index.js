@@ -19,7 +19,7 @@ class Router {
 
             // Add methods to 'this' instance
             this[verb.toLowerCase()] = (path, callback) => {
-                this.routes(verb, path, callback);
+                this.route(verb, path, callback);
             }
         })
     }
@@ -122,7 +122,7 @@ class Router {
 
         for (let m in methods) {
             let routeObject = methods[m];
-            
+
             log("Methods: ", routeObject);
 
             // Split route as array of tokens: 
