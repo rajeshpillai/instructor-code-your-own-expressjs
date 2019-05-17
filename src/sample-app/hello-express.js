@@ -11,6 +11,12 @@ const port = 3001;
 app.use(express.static('public'));
 
 
+// Example: Middleware: Simple Console logger
+app.use(function(req, res, next){
+    console.log('%s %s', req.method, req.url);
+    next();
+});
+
 // Example: Get request to the root of the web server
 app.get('/', (req, res) => res.send('Our own tiny node server (rocket)'));
 
@@ -54,8 +60,14 @@ app.delete('/users/:username', (req, res) => {
 });
 
 
+// Redirect from /dashbaord to /
+app.get("/dashboard", function (req,res) {
+    res.redirect("/");
+});
+
 // Start the server on the port specified
 app.listen(port, () =>
-    console.log(`Express Server running on port ${port}!`)
+    console.log(`Server running on port ${port}!`)
 );
+
 
