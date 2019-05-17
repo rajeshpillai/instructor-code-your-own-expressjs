@@ -34,24 +34,20 @@ class Router {
 
     handle(req, res) {
         let parsedUrl = url.parse(req.url, true); // parse query string
-        //console.log("parsedUrl: ", parsedUrl);
         let method = req.method.trim().toLowerCase();
 
-        let result = this.match(req.url, method);
+        let matchedRoute = this.match(req.url, method);
 
-        //console.log("HTTP: ", method);
-
-        if (!result) {
+        if (!matchedRoute) {
             return res.notFound().end("Not found!");
         }
 
         // Setup request-> todo
-        req = this._setupRequestParams(req, result.params, result.qs);
+        req = this._setupRequestParams(req, matchedRoute.params, matchedRoute.qs);
 
         // TODO:
         if (method == "get" || method == "delete") {  // get, delete etc
-            //console.log("WHY HERE ? ", method);
-            result.match.callback(req, res);
+            matchedRoute.match.callback(req, res);
             return;
         }
 
@@ -60,7 +56,7 @@ class Router {
             //console.log(`Beginning to process ${method} request`);
             this._onPost(req, res, function postComplete(req, res) {
                 //console.log(`Finished processing ${method}.`);
-                result.match.callback(req, res);
+                matchedRoute.match.callback(req, res);
             });
         }
     }
@@ -105,6 +101,8 @@ class Router {
         log(`Searching ${urlpath}`);
         let methods = this.routes[method.toLowerCase()];
 
+        log(`Found ${methods.length} matches.`);
+
         let urlPaths = null;   // store URL as token
         let patternToken = null;    // store route pattern as token
 
@@ -112,7 +110,7 @@ class Router {
         log(`parsedUrl : ${JSON.stringify(parsedUrl)}`);
 
         // Get the URL tokens as array
-        // For e.g. http://localhost:3000/users/edit/rajeshpillai will result in
+        // For e.g. http://localhost:3000/users/edit/rajeshpillai will matchedRoute in
         // urlPaths = ['users','edit','rajeshpillai']
         urlPaths = parsedUrl.pathname.split("/").filter(Boolean);  // Remove empty array element
 
@@ -120,24 +118,30 @@ class Router {
 
         let flatPath = {};
 
-        let matchObject = null;
+        let matchedRoute = null;
 
         for (let m in methods) {
             let routeObject = methods[m];
-            patternToken = routeObject.path.split("/").filter(Boolean); // convert the route to token array
+            
+            log("Methods: ", routeObject);
 
-            //console.log("urlPaths: ", urlPaths);
-            //console.log("patternToken: ", patternToken);
+            // Split route as array of tokens: 
+            //  =>//['users', 'edit', ':username']
+            patternToken = routeObject.path.split("/").filter(Boolean); // convert the route to token array
 
             let found = true;
 
-            // if the url token and pattern token not same length, then false
+            // Short circuit: 
+            // if the url token and pattern token not same length, 
+            //  then continue with next match
             if (urlPaths.length !== patternToken.length) {
                 found = false;
-                continue;   // continue with next method
+                continue;   // continue with next matched method
             }
 
+            // Loop through urlPaths = ['users','edit','rajeshpillai']
             for (let j = 0; j < urlPaths.length; j++) {
+                // Loop through patternToken = ['users', 'edit', ':username']
                 for (let k = 0; k < patternToken.length; k++) {
                     let token = patternToken[k];
                     if (!token.startsWith(":")) {
@@ -149,28 +153,33 @@ class Router {
             }
 
             if (found) {
-                matchObject = routeObject;
+                matchedRoute = routeObject;
                 break;
             }
         }
 
-        if (!matchObject) return;
+        if (!matchedRoute) return;
 
-        //console.log('matchOBject: ', matchObject);
+        log("*********** FOUND *****************");
+        log('matchedRoute: ', matchedRoute);
 
-        // todo:
-        let paramsMap = patternToken.reduce((arr, token, index) => {
-            if (token.trim().length === 0) return arr;
+        // Loop through patternToken = ['users', 'edit', ':username']
+        // and build clean route object with transformed data
+        // <= Output : {username: "rajeshpillai"}
+        let paramsMap = patternToken.reduce((obj, token, index) => {
+            if (token.trim().length === 0) return obj;
             if (token.startsWith(":")) {
                 let cleanToken = token.substr(1);  // remove colon
-                arr[cleanToken] = urlPaths[index];
-                return arr;
+                obj[cleanToken] = urlPaths[index];
+                return obj;
             }
-            return arr;
+            return obj;
         }, {});
 
+        log("paramsMap: ", paramsMap);
+
         return {
-            match: matchObject,
+            match: matchedRoute,
             qs: parsedUrl.query,
             params: paramsMap  // todo:
         }
