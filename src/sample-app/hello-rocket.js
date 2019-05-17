@@ -1,3 +1,4 @@
+var cors = require('cors');
 const log = require('../logger/log');
 const rocket = require('../lib/rocket');
 
@@ -12,6 +13,8 @@ const port = 3000;
 // in the folder public to be served statically
 // e.g. http://localhost:3000/styles.css
 app.use(rocket.static('public'));
+
+//app.use(cors());
 
 // Example: Middleware: Simple Console logger
 app.use(function (req, res, next) {
@@ -37,10 +40,12 @@ app.get('/users/:username/edit', (req, res) => {
     res.send(`Editing user ${req.params.username}`);
 });
 
-// Another route for edit
+// Another route for edit and also test query string
 app.get('/users/edit/:username', (req, res) => {
     console.log(req.query);
-    res.send(`Editing /users/edit/${req.params.username}`);
+    res.send(`Editing /users/edit/${req.params.username}->
+        query: ${JSON.stringify(req.query)}`
+    );
 });
 
 // Create new users resource

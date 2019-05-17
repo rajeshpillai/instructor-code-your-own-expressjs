@@ -5,6 +5,7 @@
     Fixing dynamic request parameters error
     Make params value available in req.params object
     Support POST METHOD
+    TODO:  Mini Router App
 */
 const url = require('url');
 const query = require("querystring");
@@ -36,6 +37,10 @@ class Router {
         let parsedUrl = url.parse(req.url, true); // parse query string
         let method = req.method.trim().toLowerCase();
 
+        //todo:
+        if (method === 'options') {
+            return res.send(200, "");
+        }
         let matchedRoute = this.match(req.url, method);
 
         if (!matchedRoute) {
@@ -83,7 +88,6 @@ class Router {
         });
 
         req.on("end", () => {
-            let body = query.parse(postedData);
             req.rawBody = postedData;
 
             //TODO: NEED WORK HERE
@@ -92,7 +96,6 @@ class Router {
             } else {
                 req.body = postedData;
             }
-
             onComplete(req, res);
         });
     }

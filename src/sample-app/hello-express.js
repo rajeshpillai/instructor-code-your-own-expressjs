@@ -12,13 +12,18 @@ app.use(express.static('public'));
 
 
 // Example: Middleware: Simple Console logger
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     console.log('%s %s', req.method, req.url);
     next();
 });
 
+// Cors to rocket server
+app.get('/cors', (req, res) => {
+    res.redirect('http://localhost:3000');
+});
+
 // Example: Get request to the root of the web server
-app.get('/', (req, res) => res.send('Our own tiny node server (rocket)'));
+app.get('/', (req, res) => res.send('Our own express node server (rocket)'));
 
 // Example: Get request to the users resource
 app.get('/users', (req, res) => res.send('All Users !'));
@@ -61,7 +66,7 @@ app.delete('/users/:username', (req, res) => {
 
 
 // Redirect from /dashbaord to /
-app.get("/dashboard", function (req,res) {
+app.get("/dashboard", function (req, res) {
     res.redirect("/");
 });
 
