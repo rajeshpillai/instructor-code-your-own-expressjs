@@ -34,14 +34,25 @@ class Router {
     }
 
     handle(req, res) {
-        let parsedUrl = url.parse(req.url, true); // parse query string
+        //let parsedUrl = url.parse(req.url, true); // parse query string
         let method = req.method.trim().toLowerCase();
+
+        console.log("SCOPE: ", this.scope);
+        console.log("URL: ", req.url);
 
         //todo:
         if (method === 'options') {
             return res.send(200, "");
         }
-        let matchedRoute = this.match(req.url, method);
+
+        // Get normalized URL based on scope (route middleware)
+        let url = req.url;
+
+        if (this.scope) {
+            url = req.url.replace(this.scope, "");
+        }
+
+        let matchedRoute = this.match(url, method);
 
         if (!matchedRoute) {
             return res.notFound().end("Not found!");

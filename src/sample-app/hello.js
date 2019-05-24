@@ -1,26 +1,24 @@
-var cors = require('cors');
-const log = require('../logger/log');
+// const express = require('express')
+// const app = express()
+// const port = 3000
+
+// app.get('/', (req, res) => res.send('Hello World!'))
+
+// app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+// Load the rocket library
 const rocket = require('../lib/rocket');
 
 // Create a new rocket application
 const app = rocket();
 
-const router = rocket.Router();
-
-const port = 4000;
+const port = 3000;
 
 // Setup routing for static resources.  The below statement setups files
 // in the folder public to be served statically
 // e.g. http://localhost:3000/styles.css
 app.use(rocket.static('public'));
 
-//app.use(cors());
-
-// Example: Middleware: Simple Console logger
-app.use(function (req, res, next) {
-    console.log('%s %s', req.method, req.url);
-    next();
-});
 
 // Example: Get request to the root of the web server
 app.get('/', (req, res) => res.send('Our own tiny node server (rocket)'));
@@ -38,14 +36,6 @@ app.get('/users/:username', (req, res) => {
 // username as dynamic parameter and edit as an additional action
 app.get('/users/:username/edit', (req, res) => {
     res.send(`Editing user ${req.params.username}`);
-});
-
-// Another route for edit and also test query string
-app.get('/users/edit/:username', (req, res) => {
-    console.log(req.query);
-    res.send(`Editing /users/edit/${req.params.username}->
-        query: ${JSON.stringify(req.query)}`
-    );
 });
 
 // Create new users resource
@@ -73,22 +63,7 @@ app.delete('/users/:username', (req, res) => {
 });
 
 
-// Redirect from /dashbaord to /
-app.get("/dashboard", function (req, res) {
-    res.redirect("/");
-});
-
-// Router module
-router.get("/", (req, res) => {
-    res.send("/router");
-});
-
-router.get("/r1", (req, res) => {
-    res.send("/r1");
-});
-
-app.use("/router", router);
-
+// Routes for static resources
 
 
 // Start the server on the port specified

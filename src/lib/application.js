@@ -28,7 +28,14 @@ class App {
 
   // TODO: middleware
   use(callback) {
-    this.middlewares.push(callback);
+    // check if router middleware ; app.use("/router", router);
+    if (typeof callback !== 'function') {
+      let fn = arguments[1];
+      fn.scope = callback;
+      this.middlewares.push(fn);
+    } else {
+      this.middlewares.push(callback);
+    }
     return this; // support method chaining
   }
 
@@ -43,7 +50,17 @@ class App {
       let middleware = this.middlewares[index++];
       try {
         if (middleware) {
-          middleware(req, res, next);
+          if (middleware.handle) {
+            console.log("REQ:", req.url);
+            console.log("MW:", middleware.scope);
+            if (req.url.startsWith(middleware.scope)) {
+              middleware.handle(req, res);
+            } else {
+              next();
+            }
+          } else {
+            middleware(req, res, next);
+          }
         } else {
           this.router.handle(req, res);
         }
