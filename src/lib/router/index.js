@@ -50,7 +50,12 @@ class Router {
 
         if (this.scope) {
             url = req.url.replace(this.scope, "");
+            if (url == "") {
+                url = "/";
+            }
         }
+
+        console.log("NURL: ", url);
 
         let matchedRoute = this.match(url, method);
 

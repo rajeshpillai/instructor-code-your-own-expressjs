@@ -16,6 +16,18 @@ app.use(rocket.static('public'));
 
 //app.use(cors());
 
+// Router module
+router.get("/", (req, res) => {
+    res.send("/router");
+});
+
+router.get("/r1", (req, res) => {
+    res.send("/r1");
+});
+
+app.use("/router", router);
+
+
 // Example: Middleware: Simple Console logger
 app.use(function (req, res, next) {
     console.log('%s %s', req.method, req.url);
@@ -78,16 +90,6 @@ app.get("/dashboard", function (req, res) {
     res.redirect("/");
 });
 
-// Router module
-router.get("/", (req, res) => {
-    res.send("/router");
-});
-
-router.get("/r1", (req, res) => {
-    res.send("/r1");
-});
-
-app.use("/router", router);
 
 
 

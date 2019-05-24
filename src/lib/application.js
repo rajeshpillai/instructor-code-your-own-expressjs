@@ -27,11 +27,17 @@ class App {
   }
 
   // TODO: middleware
+  /*
+    Two uses cases supported
+    1. app.use(fn);
+    2. app.use("/path", router);
+  */
+
   use(callback) {
     // check if router middleware ; app.use("/router", router);
     if (typeof callback !== 'function') {
-      let fn = arguments[1];
-      fn.scope = callback;
+      let fn = arguments[1]; // The router
+      fn.scope = callback; // The path
       this.middlewares.push(fn);
     } else {
       this.middlewares.push(callback);
@@ -50,9 +56,10 @@ class App {
       let middleware = this.middlewares[index++];
       try {
         if (middleware) {
-          if (middleware.handle) {
+          if (middleware.handle) {  // Check if the middleware is router
             console.log("REQ:", req.url);
             console.log("MW:", middleware.scope);
+            // Trim the scope and send it to the middleware
             if (req.url.startsWith(middleware.scope)) {
               middleware.handle(req, res);
             } else {
@@ -72,7 +79,6 @@ class App {
         }
       }
     };
-
     next();
   }
 
