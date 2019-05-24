@@ -5,7 +5,8 @@ const rocket = require('../lib/rocket');
 // Create a new rocket application
 const app = rocket();
 
-const router = rocket.Router();
+//const router = rocket.Router();
+const router = require('./routes/profile');
 
 const port = 4000;
 
@@ -16,16 +17,8 @@ app.use(rocket.static('public'));
 
 //app.use(cors());
 
-// Router module
-router.get("/", (req, res) => {
-    res.send("/router");
-});
-
-router.get("/r1", (req, res) => {
-    res.send("/r1");
-});
-
-app.use("/router", router);
+// Load the profile router
+app.use("/profile", router);
 
 
 // Example: Middleware: Simple Console logger
