@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/app/todo-app.js",
-    "startd": "node --inspect ./src/app/todo-app.js"
+    "start": "nodemon ./src/sample-app/todo-app.js",
+    "startd": "node --inspect ./src/sample-app/todo-app.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "consolidate": "^0.15.1",
     "ejs": "^2.6.1",
     "morgan": "^1.9.1",
+    "nodemon": "^2.0.3",
     "serve-static": "^1.13.2"
   }
 }
