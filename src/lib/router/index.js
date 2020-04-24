@@ -25,11 +25,13 @@ class Router {
         })
     }
 
-    route(method, url, callback) {
+    route(method, url,  callback) {
+        console.log("ARGS: MIDDLEWARE: ", url, callback);
         let routes = this.routes[method.toLowerCase()];  // There can be more than one route matching
         routes.push({
             path: url,
-            callback: callback
+            middlewares: callback.slice(0,callback.length-1),
+            callback: callback[callback.length-1]  // last param
         });
     }
 
@@ -58,6 +60,7 @@ class Router {
         console.log("NURL: ", url);
 
         let matchedRoute = this.match(url, method);
+        console.log("matchedRoute: ", matchedRoute);
 
         if (!matchedRoute) {
             return res.notFound().end("Not found!");
@@ -65,6 +68,12 @@ class Router {
 
         // Setup request-> todo
         req = this._setupRequestParams(req, matchedRoute.params, matchedRoute.query);
+
+        // If route has middleware call it
+        matchedRoute.match.middlewares.forEach(m => {
+            console.log("CALLING ROUTE:MIDDLEWARES: ",m);
+            m(req, res, () => {});
+        });
 
         // TODO:
         if (method == "get" || method == "delete") {  // get, delete etc
@@ -108,7 +117,12 @@ class Router {
 
             //TODO: NEED WORK HERE
             if (postedData && postedData.indexOf('{') > -1) {
-                req.body = JSON.parse(postedData);
+                try {
+                    req.body = JSON.parse(postedData);
+                } catch(e) {
+                    req.body = postedData;
+                    req.file = postedData;
+                }
             } else {
                 req.body = postedData;
             }
