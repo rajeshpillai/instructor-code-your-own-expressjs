@@ -28,6 +28,8 @@
   <body>  
       <h1>Micro Express File Upload</h1>  
       <form id="uploadForm" enctype="multipart/form-data" action="/upload" method="post">  
+       <label>Meta</label> 
+       <input type="tags" name="tags" /><br/>
        <input type="file" name="myfile" /><br/><br/>  
        <input type="submit" value="Upload Image" name="submit"><br/><br/>  
        <span id="status"></span>  

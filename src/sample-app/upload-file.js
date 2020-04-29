@@ -26,6 +26,8 @@ app.get('/',function(req,res){
 });  
   
 app.post('/upload', upload.single("myfile"), function(req,res, next){  
+  console.log("body: ", req.body);
+  console.log("file: ", req.filename);
   res.end("File is uploaded successfully!");  
 });  
   

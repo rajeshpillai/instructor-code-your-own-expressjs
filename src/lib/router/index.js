@@ -83,7 +83,7 @@ class Router {
 
         // TODO:
         if (method === "post" || method === "put" || method === "patch") {
-            //console.log(`Beginning to process ${method} request`);
+            console.log(`Beginning to process ${method} request`);
             this._onPost(req, res, function postComplete(req, res) {
                 //console.log(`Finished processing ${method}.`);
                 matchedRoute.match.callback(req, res);
@@ -108,6 +108,7 @@ class Router {
 
     _onPost(req, res, onComplete) {
         let postedData = "";
+
         req.on("data", (chunk) => {
             postedData += chunk;
         });
@@ -121,10 +122,15 @@ class Router {
                     req.body = JSON.parse(postedData);
                 } catch(e) {
                     req.body = postedData;
-                    req.file = postedData;
+                    console.log("POST PARSE ERROR: ==>", e);
+                    //req.file = postedData;
                 }
             } else {
-                req.body = postedData;
+                //req.body = postedData;
+                console.log("<==POSTED DATA IS NOT JSON");
+                if (req.body == null) {
+                    req.body = postedData;
+                }
             }
             onComplete(req, res);
         });
