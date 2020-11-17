@@ -20,7 +20,8 @@ class App {
   init() {
     // Create method on the instance of app
     this.methods.forEach(method => {
-      //todo: param as arrays (last function being the callback)
+      //todo: param as arrays (last function being the callback, and other
+      // functions could be middlewares )
       this[method.toLowerCase()] = (path, ...callback) => {
         this.router.route(method, path, callback);
       };

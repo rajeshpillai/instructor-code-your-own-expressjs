@@ -31,7 +31,7 @@ class Router {
         routes.push({
             path: url,
             middlewares: callback.slice(0,callback.length-1),
-            callback: callback[callback.length-1]  // last param
+            callback: callback[callback.length-1]  // last param is the call back (refer application.js init() method)
         });
     }
 
@@ -69,7 +69,7 @@ class Router {
         // Setup request-> todo
         req = this._setupRequestParams(req, matchedRoute.params, matchedRoute.query);
 
-        // If route has middleware call it
+        // Route MiddleWares: If route has middleware call it
         matchedRoute.match.middlewares.forEach(m => {
             console.log("CALLING ROUTE:MIDDLEWARES: ",m);
             m(req, res, () => {});
