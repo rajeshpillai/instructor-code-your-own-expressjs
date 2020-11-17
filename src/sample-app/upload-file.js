@@ -21,9 +21,9 @@ var storage =   multer.diskStorage({
 });  
 var upload = multer({ storage : storage});
   
-app.get('/',function(req,res){  
-      res.sendFile(__dirname + "/index.html");  
-});  
+// app.get('/',function(req,res){  
+//       res.sendFile(__dirname + "/index.html");  
+// });  
   
 app.post('/upload', upload.single("myfile"), function(req,res, next){  
   console.log("body: ", req.body);

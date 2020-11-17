@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/sample-app/todo-app.js",
+    "file-upload": "nodemon ./src/sample-app/upload-file.js",
     "startd": "node --inspect ./src/sample-app/todo-app.js"
   },
   "keywords": [],
